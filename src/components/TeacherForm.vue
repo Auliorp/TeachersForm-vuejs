@@ -45,6 +45,10 @@
             </tr>
         </table>
     </section>
+    
+    <div class="container">
+    <h1 class="text-center text-muted">Vue 3 + Bootstrap 5</h1>
+  </div>
 </template>
 
 <script setup>
