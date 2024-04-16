@@ -48,34 +48,48 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-let teacher = ref({
-    teacherName: '',
-    teacherSurName: '',
-    rut: '',
-    subjects: [],
-    doc: false
-})
-console.log(teacher)
+    import { ref } from 'vue';
 
-let teachers = ref([])
+    //Variables init
+    let teachers = ref([])
 
-let subject = ref('')
+    let subject = ref('')
 
-const handleSubject = () =>{
-    teacher.value.subjects.push(subject.value)
-    subject.value = ''
+    let teacher = ref({
+        teacherName: '',
+        teacherSurName: '',
+        rut: '',
+        subjects: [],
+        doc: false
+    })
+    //variables end
+
+
+    //Se cargan al listado las Materias.
+    const handleSubject = () =>{
+        teacher.value.subjects.push(subject.value)
+        //Se limpia el input al pulsar el boton.
+        subject.value = ''
+    }
+
+    //Se agregan los datos del profesor al listado.
+    const handleAddTeacher = () =>{
+    
+        teachers.value.push({
+            // IMPORTANTE agregamos un nuevo objeto (NO REACTIVO) y le asignamos los valores de nuestro elemento referenciado.
+            teacherName: teacher.value.teacherName,
+            teacherSurName:teacher.value.teacherSurName ,
+            rut:teacher.value.rut ,
+            subjects: teacher.value.subjects,
+            doc: teacher.value.doc
+        })
+            //Se limpian los inputs del formulario al enviar la informacion
+            teacher.value.teacherName= ""
+            teacher.value.teacherSurName= ""
+            teacher.value.rut= ""
+            teacher.value.subjects= []
+            teacher.value.doc= false
 }
-
-const handleAddTeacher = () =>{
-   teachers.value.push(teacher.value)
-   teacher.value.teacherName= ""
-   teacher.value.teacherSurName= ""
-   teacher.value.rut= ""
-   teacher.value.subjects= []
-   teacher.value.doc= false
-}
-
 </script>
 
 <style scoped>
