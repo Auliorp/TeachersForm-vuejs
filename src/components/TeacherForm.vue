@@ -1,25 +1,66 @@
 <template>
-    <section>
-        <h3>Añadir Profesor</h3>
-        <div>
-            <label>Nombre: <input type="text" placeholder="ingrese nombre" v-model="teacher.teacherName"></label>
-        </div>
-        <div>
-            <label>Apellidos: <input type="text" placeholder="ingrese apellidos" v-model="teacher.teacherSurName"></label>
-        </div>
-        <div>
-            <label >RUT/DNI: <input type="text" placeholder="ingrese DNI/Rut" v-model="teacher.rut"></label>
-        </div>
-        <div>
-            <label >Materias: <input type="text" placeholder="ingrese materias" v-model="subject" @keyup.enter="handleSubject"></label>
-            <button v-on:click="handleSubject()">Agregar</button>
-        </div>
-        <div><ul>
-            <li v-for="(elemento, index) in teacher.subjects" v-bind:key="index">{{ elemento }}</li>
-        </ul></div>
-        <input type="checkbox" v-model="teacher.doc"> Documentacion entregada 
-        <button v-on:click="handleAddTeacher()">Agregar </button>
-    </section>
+    <div class="container border rounded d-flex justify-content-center align-items-center">   
+        <form>
+            <div class="row">
+                <div class="col-md-12">
+                    <h5 class="modal-title text-center">Añade aqui los datos del profesor:</h5>
+                </div>
+
+                <div class="col-md-12">
+                
+                    <div class="mb-3 d-flex align-items-center">
+                        <label for="inputName" class="form-label me-1">Nombre:</label>
+                        <input type="text" class="form-control" id="inputName" aria-describedby="nameHelp" v-model="teacher.teacherName">
+                    </div>
+                
+                    <div id="nameHelp" class="form-text">Aca podria agregar un texto informativo.</div> 
+                </div>
+
+                <div class="col-md-12">
+                    <div class="mb-3 d-flex align-items-center">
+                        <label for="inputSurname" class="form-label me-1" >Apellido:</label>
+                        <input type="text" class="form-control" id="inputSurname" v-model="teacher.teacherSurName">
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="mb-3 d-flex align-items-center">
+                        <label for="inputRut" class="form-label me-1">RUT:</label>
+                        <input type="number" class="form-control" id="inputRut" v-model="teacher.rut">
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="mb-3 d-flex align-items-center">
+                        <label for="inputsubjects" class="form-label me-1">tecnologias:</label>
+                        <input type="text" class="form-control" id="inputsubjects" v-model="subject" @keyup.enter="handleSubject()">
+                        <button type="button" class="btn btn-primary ms-1" v-on:click="handleSubject()">Agregar</button>
+                    </div>
+                </div>
+
+                <div>
+                    <ul>
+                        <li v-for="(elemento, index) in teacher.subjects" v-bind:key="index">{{ elemento }}</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mb-3 form-check d-flex align-items-center">
+                        <input type="checkbox" class="form-check-input me-3" id="exampleCheck1" v-model="teacher.doc">
+                        <label class="form-check-label" for="exampleCheck1">Documentacion entregada</label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-primary" v-on:click="handleAddTeacher()">Agregar</button>
+                </div>
+            </div>
+        
+        </form>
+    </div>
+
 
     <section>
         <h3>Listado de profesores</h3>
@@ -45,10 +86,9 @@
             </tr>
         </table>
     </section>
+
     
-    <div class="container">
-    <h1 class="text-center text-muted">Vue 3 + Bootstrap 5</h1>
-  </div>
+
 </template>
 
 <script setup>
@@ -93,7 +133,7 @@
             teacher.value.rut= ""
             teacher.value.subjects= []
             teacher.value.doc= false
-}
+    }
 </script>
 
 <style scoped>
