@@ -1,91 +1,113 @@
 <template>
-    <div class="container border rounded d-flex justify-content-center align-items-center">   
-        <form>
-            <div class="row">
-                <div class="col-md-12">
-                    <h5 class="modal-title text-center">Añade aqui los datos del profesor:</h5>
-                </div>
 
-                <div class="col-md-12">
-                
-                    <div class="mb-3 d-flex align-items-center">
-                        <label for="inputName" class="form-label me-1">Nombre:</label>
-                        <input type="text" class="form-control" id="inputName" aria-describedby="nameHelp" v-model="teacher.teacherName">
+<div class="container-fluid ">
+    <div class="row justify-content-center align-items-center">
+        <div class=" col-md-12 ">
+            <h5 class="modal-title text-center fs-6">Añade aquí los datos del profesor:</h5>
+        </div>
+      <div class="col-md-6">
+            <div class="container border rounded d-flex justify-content-center align-items-center"> 
+                <form >
+                    <div class="row">
+
+                        <div class="col-md-12">
+                        
+                            <div class="mb-1 ">
+                                <label for="inputName" class="form-label ">Nombre:</label>
+                                <input type="text" class="form-control form-control-sm" id="inputName" aria-describedby="nameHelp" v-model="teacher.teacherName">
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 ">
+                            <div class="mb-1 ">
+                                <label for="inputSurname" class="form-label" >Apellido:</label>
+                                <input type="text" class="form-control form-control-sm" id="inputSurname" v-model="teacher.teacherSurName">
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="mb-1">
+                                <label for="inputRut" class="form-label ">RUT:</label>
+                                <input type="number" class="form-control form-control-sm" id="inputRut" v-model="teacher.rut">
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 ">
+                            <div class="mb-1 ">
+                                <label for="inputsubjects" class="form-label">Tecnologias:</label>
+                                <div class="d-flex align-items-center">
+                                    <input type="text" class="form-control form-control-sm me-2" id="inputsubjects" v-model="subject" @keyup.enter="handleSubject()">
+                                    <button type="button" class="btn btn-primary btn-sm" v-on:click="handleSubject()">Añadir</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <ul>
+                                <li v-for="(elemento, index) in teacher.subjects" v-bind:key="index">{{ elemento }}</li>
+                            </ul>
+                        </div>
+
                     </div>
-                
-                    <div id="nameHelp" class="form-text">Aca podria agregar un texto informativo.</div> 
-                </div>
 
-                <div class="col-md-12">
-                    <div class="mb-3 d-flex align-items-center">
-                        <label for="inputSurname" class="form-label me-1" >Apellido:</label>
-                        <input type="text" class="form-control" id="inputSurname" v-model="teacher.teacherSurName">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-2 form-check d-flex align-items-center">
+                                <input type="checkbox" class="form-check-input me-1" id="checkDoc" v-model="teacher.doc">
+                                <label class="form-check-label" for="checkDoc">Documentacion entregada</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-2 ">
+                            <button type="button" class="btn btn-primary btn-sm" v-on:click="handleAddTeacher()">Agregar</button>
+                        </div>
                     </div>
-                </div>
-
-                <div class="col-md-12">
-                    <div class="mb-3 d-flex align-items-center">
-                        <label for="inputRut" class="form-label me-1">RUT:</label>
-                        <input type="number" class="form-control" id="inputRut" v-model="teacher.rut">
-                    </div>
-                </div>
-
-                <div class="col-md-12">
-                    <div class="mb-3 d-flex align-items-center">
-                        <label for="inputsubjects" class="form-label me-1">tecnologias:</label>
-                        <input type="text" class="form-control" id="inputsubjects" v-model="subject" @keyup.enter="handleSubject()">
-                        <button type="button" class="btn btn-primary ms-1" v-on:click="handleSubject()">Agregar</button>
-                    </div>
-                </div>
-
-                <div>
-                    <ul>
-                        <li v-for="(elemento, index) in teacher.subjects" v-bind:key="index">{{ elemento }}</li>
-                    </ul>
-                </div>
-
+                </form>
             </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="mb-3 form-check d-flex align-items-center">
-                        <input type="checkbox" class="form-check-input me-3" id="exampleCheck1" v-model="teacher.doc">
-                        <label class="form-check-label" for="exampleCheck1">Documentacion entregada</label>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <button type="button" class="btn btn-primary" v-on:click="handleAddTeacher()">Agregar</button>
-                </div>
-            </div>
-        
-        </form>
+        </div>
     </div>
+</div>
 
 
-    <section>
-        <h3>Listado de profesores</h3>
-        <table>
-            <tr>
-                <th>Nombre</th>
-                <th>Apellidos</th>
-                <th>RUT</th>
-                <th>Materias</th>
-                <th>Documentacion entregada</th>
-            </tr>
-            <tr v-for="elemento in teachers" :key="elemento.rut">
-                <th>{{ elemento.teacherName }}</th>
-                <th>{{ elemento.teacherSurName }}</th>
-                <th>{{elemento.rut  }}</th>
-                <th>
-                    <ul>
-                        <li v-for="(item, index) in elemento.subjects" :key="index">{{ item }}</li>
-                    </ul>
-                </th>
-                <th v-if="elemento.doc">Entregado</th>
-                <th v-else>No entregado</th>
-            </tr>
-        </table>
-    </section>
+<section>
+    <h5 class="modal-title text-center mt-2 fs-6">Listado de profesores</h5>
+    <div class="container-md">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="table-responsive border rounded ">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="small">Nombre</th>
+                                <th scope="col" class="small">Apellidos</th>
+                                <th scope="col" class="small">RUT</th>
+                                <th scope="col" class="small">Materias</th>
+                                <th scope="col" class="small">Documentacion entregada</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="elemento in teachers" :key="elemento.rut">
+                                <td class="small">{{ elemento.teacherName }}</td>
+                                <td class="small">{{ elemento.teacherSurName }}</td>
+                                <td class="small">{{ elemento.rut }}</td>
+                                <td class="small">
+                                    <ul>
+                                        <li v-for="(item, index) in elemento.subjects" :key="index">{{ item }}</li>
+                                    </ul>
+                                </td>
+                                <td class="small">
+                                    <span v-if="elemento.doc">✅</span>
+                                    <span v-else>❌</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
 
     
 
