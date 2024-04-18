@@ -32,21 +32,26 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12 ">
-                            <div class="mb-1 ">
-                                <label for="inputsubjects" class="form-label">Tecnologias:</label>
-                                <div class="d-flex align-items-center">
-                                    <input type="text" class="form-control form-control-sm me-2" id="inputsubjects" v-model="subject" @keyup.enter="handleSubject()">
-                                    <button type="button" class="btn btn-primary btn-sm" v-on:click="handleSubject()">Añadir</button>
+                    <div class="col-md-12">
+                        <div class="mb-1 ">
+                            <label for="inputsubjects" class="form-label">Tecnologias:</label>
+                            <div>
+                                <div class="d-flex flex-wrap border rounded p-2">
+                                    <div class="form-check" v-for="(technology, index) in technologies" :key="index">
+                                    <input class="form-check-input " type="checkbox" :value="technology" v-model="teacher.subjects">
+                                    <label class="form-check-label truncate me-2">{{ technology }}</label>
                                 </div>
+                                </div>
+                                
                             </div>
                         </div>
+                    </div>
 
-                        <div>
+                        <!-- <div>
                             <ul>
                                 <li v-for="(elemento, index) in teacher.subjects" v-bind:key="index">{{ elemento }}</li>
                             </ul>
-                        </div>
+                        </div> -->
 
                     </div>
 
@@ -79,22 +84,22 @@
                             <tr>
                                 <th scope="col" class="small">Nombre</th>
                                 <th scope="col" class="small">Apellidos</th>
-                                <th scope="col" class="small">RUT</th>
-                                <th scope="col" class="small">Materias</th>
+                                <th scope="col" class="small text-center">RUT</th>
+                                <th scope="col" class="small text-center">Materias</th>
                                 <th scope="col" class="small">Documentacion entregada</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="elemento in teachers" :key="elemento.rut">
-                                <td class="small">{{ elemento.teacherName }}</td>
-                                <td class="small">{{ elemento.teacherSurName }}</td>
+                                <td class="small text-center">{{ elemento.teacherName }}</td>
+                                <td class="small text-center">{{ elemento.teacherSurName }}</td>
                                 <td class="small">{{ elemento.rut }}</td>
                                 <td class="small">
                                     <ul>
                                         <li v-for="(item, index) in elemento.subjects" :key="index">{{ item }}</li>
                                     </ul>
                                 </td>
-                                <td class="small">
+                                <td class="small text-center ">
                                     <span v-if="elemento.doc">✅</span>
                                     <span v-else>❌</span>
                                 </td>
@@ -119,7 +124,7 @@
     //Variables init
     let teachers = ref([])
 
-    let subject = ref('')
+    // let subject = ref('')
 
     let teacher = ref({
         teacherName: '',
@@ -128,15 +133,17 @@
         subjects: [],
         doc: false
     })
+
+    const technologies = ref(['JavaScript','Dart', 'TypeScript', "PHP",  "MessiScript", "Python", "Java", "C++",  "Otros.."]);
     //variables end
 
 
-    //Se cargan al listado las Materias.
-    const handleSubject = () =>{
-        teacher.value.subjects.push(subject.value)
-        //Se limpia el input al pulsar el boton.
-        subject.value = ''
-    }
+    // //Se cargan al listado las Materias.
+    // const handleSubject = () =>{
+    //     teacher.value.subjects.push(subject.value)
+    //     //Se limpia el input al pulsar el boton.
+    //     subject.value = ''
+    // }
 
     //Se agregan los datos del profesor al listado.
     const handleAddTeacher = () =>{
@@ -159,4 +166,14 @@
 </script>
 
 <style scoped>
+.overflow-auto {
+    max-height: 50px; /* Define la altura máxima del select */
+}
+
+.truncate {
+        max-width: 90px; /* Ancho máximo deseado para cada elemento */
+        overflow: hidden;
+        text-overflow: ellipsis; /* Truncar texto con puntos suspensivos si es demasiado largo */
+        white-space: nowrap; /* Evitar que el texto se divida en múltiples líneas */
+    }
 </style>
