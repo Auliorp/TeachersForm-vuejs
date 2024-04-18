@@ -3,7 +3,7 @@
 <div class="container-fluid ">
     <div class="row justify-content-center align-items-center">
         <div class=" col-md-12 ">
-            <h5 class="modal-title text-center fs-6">Añade aquí los datos del profesor:</h5>
+            <h5 class="modal-title text-center my-3 fs-6">Añade aquí los datos del profesor:</h5>
         </div>
       <div class="col-md-6">
             <div class="container border rounded d-flex justify-content-center align-items-center"> 
@@ -13,28 +13,29 @@
                         <div class="col-md-12">
                         
                             <div class="mb-1 ">
-                                <label for="inputName" class="form-label ">Nombre:</label>
-                                <input type="text" class="form-control form-control-sm" id="inputName" aria-describedby="nameHelp" v-model="teacher.teacherName">
+                                <label for="inputName" class="form-label mt-2 mb-0">Nombre:</label>
+                                <input type="text" class="form-control form-control-sm" id="inputName" aria-describedby="nameHelp" placeholder="Ingrese aqui su nombre." v-model="teacher.teacherName">
                             </div>
                         </div>
 
                         <div class="col-md-12 ">
                             <div class="mb-1 ">
-                                <label for="inputSurname" class="form-label" >Apellido:</label>
-                                <input type="text" class="form-control form-control-sm" id="inputSurname" v-model="teacher.teacherSurName">
+                                <label for="inputSurname" class="form-label mb-0" >Apellido:</label>
+                                <input type="text" class="form-control form-control-sm" id="inputSurname" placeholder="Ingrese aqui su apellido." v-model="teacher.teacherSurName">
                             </div>
                         </div>
 
                         <div class="col-md-12">
                             <div class="mb-1">
-                                <label for="inputRut" class="form-label ">RUT:</label>
-                                <input type="number" class="form-control form-control-sm" id="inputRut" v-model="teacher.rut">
+                                <label for="inputRut" class="form-label mb-0">RUT:</label>
+                                <input type="number" class="form-control form-control-sm" id="inputRut"
+                                placeholder="Ingrese aqui su RUT." v-model="teacher.rut">
                             </div>
                         </div>
 
                     <div class="col-md-12">
                         <div class="mb-1 ">
-                            <label for="inputsubjects" class="form-label">Tecnologias:</label>
+                            <label for="inputsubjects" class="form-label mb-0">Tecnologias:</label>
                             <div>
                                 <div class="d-flex flex-wrap border rounded p-2">
                                     <div class="form-check" v-for="(technology, index) in technologies" :key="index">
@@ -56,7 +57,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 ms-2">
                             <div class="mb-2 form-check d-flex align-items-center">
                                 <input type="checkbox" class="form-check-input me-1" id="checkDoc" v-model="teacher.doc">
                                 <label class="form-check-label" for="checkDoc">Documentacion entregada</label>
@@ -74,32 +75,32 @@
 
 
 <section>
-    <h5 class="modal-title text-center mt-2 fs-6">Listado de profesores</h5>
-    <div class="container-md">
+    <h5 class="modal-title text-center my-3 fs-6">Listado de profesores:</h5>
+    <div class="container-md mb-5">
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="table-responsive border rounded ">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col" class="small">Nombre</th>
-                                <th scope="col" class="small">Apellidos</th>
+                                <th scope="col" class="small text-center">Nombre</th>
+                                <th scope="col" class="small text-center">Apellidos</th>
                                 <th scope="col" class="small text-center">RUT</th>
                                 <th scope="col" class="small text-center">Materias</th>
-                                <th scope="col" class="small">Documentacion entregada</th>
+                                <th scope="col" class="small text-center">Documentacion entregada</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="elemento in teachers" :key="elemento.rut">
-                                <td class="small text-center">{{ elemento.teacherName }}</td>
-                                <td class="small text-center">{{ elemento.teacherSurName }}</td>
-                                <td class="small">{{ elemento.rut }}</td>
+                                <td class="small text-center align-middle">{{ elemento.teacherName }}</td>
+                                <td class="small text-center align-middle">{{ elemento.teacherSurName }}</td>
+                                <td class="small align-middle">{{ elemento.rut }}</td>
                                 <td class="small">
                                     <ul>
                                         <li v-for="(item, index) in elemento.subjects" :key="index">{{ item }}</li>
                                     </ul>
                                 </td>
-                                <td class="small text-center ">
+                                <td class="small text-center align-middle">
                                     <span v-if="elemento.doc">✅</span>
                                     <span v-else>❌</span>
                                 </td>
