@@ -14,22 +14,40 @@
                         
                             <div class="mb-1 ">
                                 <label for="inputName" class="form-label mt-2 mb-0">Nombre:</label>
-                                <input type="text" class="form-control form-control-sm" id="inputName" aria-describedby="nameHelp" placeholder="Ingrese aqui su nombre." v-model="teacher.teacherName">
+                                <input type="text" class="form-control form-control-sm" id="inputName" aria-describedby="nameHelp" placeholder="Ingrese aqui su nombre." v-model="teacher.teacherName" @input="validateName" @keydown.enter.prevent="focusNextInput('inputSurname')">
+                                <div class="text-danger" v-if="!validName">
+                                     El campo solo acepta letras
+                                </div>
+                                <div class="text-danger" v-else-if="!validNameLength">
+                                    Sabemos que no es tan largo tu nombre deje el invento!
+                                </div>
                             </div>
                         </div>
 
                         <div class="col-md-12 ">
                             <div class="mb-1 ">
                                 <label for="inputSurname" class="form-label mb-0" >Apellido:</label>
-                                <input type="text" class="form-control form-control-sm" id="inputSurname" placeholder="Ingrese aqui su apellido." v-model="teacher.teacherSurName">
+                                <input type="text" class="form-control form-control-sm" id="inputSurname" placeholder="Ingrese aqui su apellido." v-model="teacher.teacherSurName" @input="validateSurName" @keydown.enter.prevent="focusNextInput('inputRut')">
+                                <div class="text-danger" v-if="!validSurName">
+                                     El campo solo acepta letras
+                                </div>
+                                <div class="text-danger" v-else-if="!validSurNameLength">
+                                    Sabemos que no es tan largo tu Apellido deje el invento!
+                                </div>
                             </div>
                         </div>
 
                         <div class="col-md-12">
                             <div class="mb-1">
                                 <label for="inputRut" class="form-label mb-0">RUT:</label>
-                                <input type="number" class="form-control form-control-sm" id="inputRut"
-                                placeholder="Ingrese aqui su RUT." v-model="teacher.rut">
+                                <input type="text" class="form-control form-control-sm" id="inputRut"
+                                placeholder="Ingrese aqui su RUT." v-model="teacher.rut" @input="validateRut" @keydown.enter.prevent="submitRut">
+                                <div id="passwordHelpBlock" class="form-text">
+                                    Por favor ingrese su Rut sin puntos ni guion.
+                                </div>
+                                <div class="text-danger" v-if="!validRut">
+                                    Rut invalido.
+                                </div>
                             </div>
                         </div>
 
@@ -134,17 +152,54 @@
         subjects: [],
         doc: false
     })
-
+    
     const technologies = ref(['JavaScript','Dart', 'TypeScript', "PHP",  "MessiScript", "Python", "Java", "C++",  "Otros.."]);
+    
+        const focusNextInput = (nextInputId) => {
+            // Enfocar el siguiente input cuando se presiona "Enter"
+            document.getElementById(nextInputId).focus();
+        };
+
+        const submitRut = () => {
+            // Desenfocar el input para eliminar el foco después de ingresar el valor
+            document.activeElement.blur();
+        };
+    
+    // validaciones
+    const regexOnlyLetters = /^[a-zA-Z\s]*$/; 
+    const regexRut = /^[0-9]{7,8}[0-9kK]$/
+    const regexNumbers = /^[0-9]+[kK]?$/;
+    
+    let validName = ref(true);
+    let validNameLength = ref(true);
+    const validateName = () => {
+        validName.value = regexOnlyLetters.test(teacher.value.teacherName);
+        validNameLength.value = validName.value && teacher.value.teacherName.length <= 30;
+    };
+
+    let validSurName = ref(true);
+    let validSurNameLength = ref(true);
+    const validateSurName = () => {
+        validSurName.value = regexOnlyLetters.test(teacher.value.teacherSurName);
+        validSurNameLength = validSurName.value && teacher.value.teacherSurName.length <= 30;
+    };
+
+    
+
+    let validRut = ref(true);
+    const validateRut = () => {
+        if (teacher.value.rut.length < 9) {
+        validRut.value = teacher.value.rut.length === 0 || regexNumbers.test(teacher.value.rut);
+    }else if (teacher.value.rut.length === 9 || teacher.value.rut.length === 10) {
+        validRut.value = regexRut.test(teacher.value.rut);
+    }else if (teacher.value.rut.length > 10) {
+        validRut.value = false; // La longitud del RUT es mayor a la longitud de la cadena
+    }else {
+        validRut.value = true; // Se considera válido si la longitud del RUT no es la adecuada
+    }
+    };
+
     //variables end
-
-
-    // //Se cargan al listado las Materias.
-    // const handleSubject = () =>{
-    //     teacher.value.subjects.push(subject.value)
-    //     //Se limpia el input al pulsar el boton.
-    //     subject.value = ''
-    // }
 
     //Se agregan los datos del profesor al listado.
     const handleAddTeacher = () =>{
