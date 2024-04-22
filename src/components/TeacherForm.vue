@@ -16,14 +16,25 @@
                                 <label for="inputName" class="form-label mt-2 mb-0">Nombre:</label>
                                 <input type="text" class="form-control form-control-sm" 
                                     :class="{ 
-                                    'is-valid': validName && teacher.teacherName.length > 0,
-                                    'is-invalid': !validName || (teacher.teacherName.length === 0 && !validName)
-                                    }" id="inputName" aria-describedby="nameHelp" placeholder="Ingrese aqui su nombre." v-model="teacher.teacherName" @input="validateName" @keydown.enter.prevent="focusNextInput('inputSurname')">
+                                    'is-valid': validName && teacher.teacherName.trim() !== '',
+                                    'is-invalid': !validName || (teacher.teacherName.trim() === '' && teacher.teacherName.length > 0)
+                                    }" 
+                                    id="inputName" 
+                                    aria-describedby="nameHelp" 
+                                    placeholder="Ingrese aqui su nombre." 
+                                    v-model="teacher.teacherName" 
+                                    @input="validateName" 
+                                    @keydown.enter.prevent="focusNextInput('inputSurname')" 
+                                    pattern="^[^\s]+$">
+                                    
                                 <div class="text-danger" v-if="!validName">
                                      El campo solo acepta letras
                                 </div>
                                 <div class="text-danger" v-else-if="!validNameLength">
                                     Sabemos que no es tan largo tu nombre deje el invento!
+                                </div>
+                                <div class="text-danger" v-if="teacher.teacherName.trim() === '' && !/^\s*$/.test(teacher.teacherName)">
+                                    Por favor ingrese un texto.
                                 </div>
                             </div>
                         </div>
@@ -34,8 +45,13 @@
                                 <input type="text" class="form-control form-control-sm" 
                                 :class="{ 
                                     'is-valid': validSurName && teacher.teacherSurName.length > 0,
-                                    'is-invalid': !validSurName || (teacher.teacherSurName.length === 0 && !validSurName)
-                                 }" id="inputSurname" placeholder="Ingrese aqui su apellido." v-model="teacher.teacherSurName" @input="validateSurName" @keydown.enter.prevent="focusNextInput('inputRut')">
+                                    'is-invalid': !validSurName || (teacher.teacherSurName.trim() === '' && teacher.teacherSurName.length > 0)
+                                 }" 
+                                 id="inputSurname" 
+                                 placeholder="Ingrese aqui su apellido." 
+                                 v-model="teacher.teacherSurName" @input="validateSurName" 
+                                 @keydown.enter.prevent="focusNextInput('inputRut')"
+                                 pattern="^[^\s]+$">
                                 <div class="text-danger" v-if="!validSurName">
                                      El campo solo acepta letras
                                 </div>
@@ -77,13 +93,6 @@
                             </div>
                         </div>
                     </div>
-
-                        <!-- <div>
-                            <ul>
-                                <li v-for="(elemento, index) in teacher.subjects" v-bind:key="index">{{ elemento }}</li>
-                            </ul>
-                        </div> -->
-
                     </div>
 
                     <div class="row">
@@ -178,14 +187,15 @@
         };
     
     // validaciones
-    const regexOnlyLetters = /^[a-zA-Z\s]*$/; 
+    const regexOnlyLetters = /^[a-zA-ZáéíóúÁÉÍÓÚ\s]*$/; 
     const regexRut = /^[0-9]{7,8}[0-9kK]$/
     const regexNumbers = /^[0-9]+[kK]?$/;
     
     let validName = ref(true);
     let validNameLength = ref(true);
     const validateName = () => {
-        validName.value = regexOnlyLetters.test(teacher.value.teacherName);
+        const name = teacher.value.teacherName;
+        validName.value = regexOnlyLetters.test(name);
         validNameLength.value = validName.value && teacher.value.teacherName.length <= 30;
     };
 
