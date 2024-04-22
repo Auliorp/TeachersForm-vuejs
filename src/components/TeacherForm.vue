@@ -14,7 +14,11 @@
                         
                             <div class="mb-1 ">
                                 <label for="inputName" class="form-label mt-2 mb-0">Nombre:</label>
-                                <input type="text" class="form-control form-control-sm" id="inputName" aria-describedby="nameHelp" placeholder="Ingrese aqui su nombre." v-model="teacher.teacherName" @input="validateName" @keydown.enter.prevent="focusNextInput('inputSurname')">
+                                <input type="text" class="form-control form-control-sm" 
+                                    :class="{ 
+                                    'is-valid': validName && teacher.teacherName.length > 0,
+                                    'is-invalid': !validName || (teacher.teacherName.length === 0 && !validName)
+                                    }" id="inputName" aria-describedby="nameHelp" placeholder="Ingrese aqui su nombre." v-model="teacher.teacherName" @input="validateName" @keydown.enter.prevent="focusNextInput('inputSurname')">
                                 <div class="text-danger" v-if="!validName">
                                      El campo solo acepta letras
                                 </div>
@@ -27,7 +31,11 @@
                         <div class="col-md-12 ">
                             <div class="mb-1 ">
                                 <label for="inputSurname" class="form-label mb-0" >Apellido:</label>
-                                <input type="text" class="form-control form-control-sm" id="inputSurname" placeholder="Ingrese aqui su apellido." v-model="teacher.teacherSurName" @input="validateSurName" @keydown.enter.prevent="focusNextInput('inputRut')">
+                                <input type="text" class="form-control form-control-sm" 
+                                :class="{ 
+                                    'is-valid': validSurName && teacher.teacherSurName.length > 0,
+                                    'is-invalid': !validSurName || (teacher.teacherSurName.length === 0 && !validSurName)
+                                 }" id="inputSurname" placeholder="Ingrese aqui su apellido." v-model="teacher.teacherSurName" @input="validateSurName" @keydown.enter.prevent="focusNextInput('inputRut')">
                                 <div class="text-danger" v-if="!validSurName">
                                      El campo solo acepta letras
                                 </div>
@@ -40,8 +48,12 @@
                         <div class="col-md-12">
                             <div class="mb-1">
                                 <label for="inputRut" class="form-label mb-0">RUT:</label>
-                                <input type="text" class="form-control form-control-sm" id="inputRut"
-                                placeholder="Ingrese aqui su RUT." v-model="teacher.rut" @input="validateRut" @keydown.enter.prevent="submitRut">
+                                <input type="text" class="form-control form-control-sm" 
+                                :class="{ 
+                                    'is-valid': validRut && teacher.rut.length > 7, 
+                                    'is-invalid': !validRut || (teacher.rut.length === 0 && !validRut)  
+                                }" id="inputRut" placeholder="Ingrese aqui su RUT." 
+                                v-model="teacher.rut" @input="validateRut" @keydown.enter.prevent="submitRut">
                                 <div id="passwordHelpBlock" class="form-text">
                                     Por favor ingrese su Rut sin puntos ni guion.
                                 </div>
@@ -112,7 +124,7 @@
                             <tr v-for="elemento in teachers" :key="elemento.rut">
                                 <td class="small text-center align-middle">{{ elemento.teacherName }}</td>
                                 <td class="small text-center align-middle">{{ elemento.teacherSurName }}</td>
-                                <td class="small align-middle">{{ elemento.rut }}</td>
+                                <td class="small text-center align-middle">{{ elemento.rut }}</td>
                                 <td class="small">
                                     <ul>
                                         <li v-for="(item, index) in elemento.subjects" :key="index">{{ item }}</li>
@@ -193,9 +205,9 @@
     }else if (teacher.value.rut.length === 9 || teacher.value.rut.length === 10) {
         validRut.value = regexRut.test(teacher.value.rut);
     }else if (teacher.value.rut.length > 10) {
-        validRut.value = false; // La longitud del RUT es mayor a la longitud de la cadena
+        validRut.value = false; 
     }else {
-        validRut.value = true; // Se considera válido si la longitud del RUT no es la adecuada
+        validRut.value = true; 
     }
     };
 
